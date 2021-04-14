@@ -22,18 +22,26 @@ def fetch_image_links_spacex_last_launch(url):
     return response.json()['links']['flickr']['original']
 
 
+def fetch_image_links_hubble(url):
+    response = get_response(url)
+    return [image_file['file_url'] for image_file in response.json()['image_files']]
+
+
 def main():
     images_folder = 'images/'
     Path(images_folder).mkdir(exist_ok=True)
 
-    api_url = 'https://api.spacexdata.com/v4/launches/latest'
-
+    api_spacex_url = 'https://api.spacexdata.com/v4/launches/latest'
+    api_hubble_url = 'http://hubblesite.org/api/v3/image/1/'
     try:
-        image_links = fetch_image_links_spacex_last_launch(api_url)
-        for image_id, image_link in enumerate(image_links, start=1):
-            image_title = f'spacex{image_id}.jpg'
-            image_filepath = download_image(image_link, image_title, images_folder)
-            print(image_filepath)
+        # image_spacex_links = fetch_image_links_spacex_last_launch(api_spacex_url)
+        # for image_id, image_link in enumerate(image_spacex_links, start=1):
+        #     image_title = f'spacex{image_id}.jpg'
+        #     image_filepath = download_image(image_link, image_title, images_folder)
+        #     print(image_filepath)
+        image_hubble_links = fetch_image_links_hubble(api_hubble_url)
+        print(image_hubble_links)
+
     except requests.exceptions.HTTPError as request_error:
         exit(f'Не могу получить ответ от сервера -> {request_error}')
 
