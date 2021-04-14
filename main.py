@@ -17,16 +17,23 @@ def download_image(url, filename, folder):
     return filepath
 
 
+def fetch_image_links_spacex_last_launch(url):
+    response = get_response(url)
+    return response.json()['links']['flickr']['original']
+
+
 def main():
     images_folder = 'images/'
     Path(images_folder).mkdir(exist_ok=True)
 
-    image_url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
-    image_title = 'hubble.jpeg'
-    
+    api_url = 'https://api.spacexdata.com/v4/launches/latest'
+
     try:
-        image_filepath = download_image(image_url, image_title, images_folder)
-        print(image_filepath)
+        image_links = fetch_image_links_spacex_last_launch(api_url)
+        for image_id, image_link in enumerate(image_links, start=1):
+            image_title = f'spacex{image_id}.jpg'
+            image_filepath = download_image(image_link, image_title, images_folder)
+            print(image_filepath)
     except requests.exceptions.HTTPError as request_error:
         exit(f'Не могу получить ответ от сервера -> {request_error}')
 
