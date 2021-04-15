@@ -1,12 +1,17 @@
 import os
 from pathlib import Path
-import requests
 from urllib.parse import urlsplit, unquote, urljoin
+import requests
 import urllib3
+from PIL import Image
+from os import listdir
+from os import walk
+
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 IMAGES_SPACEX_FOLDER = os.path.join('images', 'spacex')
 IMAGES_HUBBLE_FOLDER = os.path.join('images', 'hubble')
+IMAGES_RESIZE_FOLDER = os.path.join('images', 'resize')
 
 
 def get_response(url):
@@ -49,14 +54,25 @@ def fetch_hubble_from_collection(url):
         download_image(image_url, image_title, IMAGES_HUBBLE_FOLDER)
 
 
+def modify_image(folder):
+    for filepath in listdir(folder)
+    Path(IMAGES_RESIZE_FOLDER).mkdir(exist_ok=True, parents=True)
+    image = Image.open(filepath)
+    image.thumbnail((1080, 1080))
+    conver_image = image.convert('RGB')
+    conver_image.save(os.path.join(IMAGES_RESIZE_FOLDER, '1.jpg'), format="JPEG")
+
+
 def main():
     hubble_collection_name = 'holiday_cards'
     api_spacex_url = 'https://api.spacexdata.com/v4/launches/latest'
     api_hubble_url = f'http://hubblesite.org/api/v3/images/{hubble_collection_name}'
-
+    filepath = 'images/spacex/spacex1.jpg'
+    
     try:
-        fetch_spacex_last_launch(api_spacex_url)
-        fetch_hubble_from_collection(api_hubble_url)
+        # fetch_spacex_last_launch(api_spacex_url)
+        # fetch_hubble_from_collection(api_hubble_url)
+        modify_image(IMAGES_SPACEX_FOLDER)
     except requests.exceptions.HTTPError as request_error:
         exit(f'Не могу получить ответ от сервера -> {request_error}')
 
