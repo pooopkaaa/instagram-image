@@ -2,7 +2,9 @@ import os
 from pathlib import Path
 import requests
 from urllib.parse import urlsplit, unquote, urljoin
-import os
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 def get_response(url):
