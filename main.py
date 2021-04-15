@@ -5,6 +5,8 @@ from urllib.parse import urlsplit, unquote, urljoin
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+IMAGES_SPACEX_FOLDER = os.path.join('images', 'spacex')
+IMAGES_HUBBLE_FOLDER = os.path.join('images', 'hubble')
 
 
 def get_response(url):
@@ -21,40 +23,40 @@ def download_image(url, filename, folder):
     return filepath
 
 
-def get_image_title(url, image_hubble_id):
-    return f'{image_hubble_id}{os.path.splitext(os.path.split(urlsplit(unquote(url)).path)[-1])[-1]}'
+def get_file_extension_from_url(url):
+    return os.path.splitext(os.path.split(urlsplit(unquote(url)).path)[-1])[-1]
 
 
-def fetch_image_links_spacex_last_launch(url):
+def fetch_spacex_last_launch(url):
+    Path(IMAGES_SPACEX_FOLDER).mkdir(exist_ok=True, parents=True)
     response = get_response(url)
-    return response.json()['links']['flickr']['original']
+    image_urls = response.json()['links']['flickr']['original']
+    for image_id, image_url in enumerate(image_urls, start=1):
+        image_title = f'spacex{image_id}{get_file_extension_from_url(image_url)}'
+        download_image(image_url, image_title, IMAGES_SPACEX_FOLDER)
 
 
-def fetch_image_links_hubble(url):
+def fetch_hubble_from_collection(url):
+    Path(IMAGES_HUBBLE_FOLDER).mkdir(exist_ok=True, parents=True)
     response = get_response(url)
-    return [image_file['file_url'] for image_file in response.json()['image_files']]
+    image_ids = [image_element['id'] for image_element in response.json()]
+    for image_id in image_ids:
+        image_url = urljoin(
+                'https://',
+                get_response(f'http://hubblesite.org/api/v3/image/{image_id}').json()
+                ['image_files'][-1]['file_url'])
+        image_title = f'{image_id}{get_file_extension_from_url(image_url)}'
+        download_image(image_url, image_title, IMAGES_HUBBLE_FOLDER)
 
 
 def main():
-    images_spacex_folder = os.path.join('images', 'spacex')
-    images_hubble_folder = os.path.join('images', 'hubble')
-    Path(images_spacex_folder).mkdir(exist_ok=True, parents=True)
-    Path(images_hubble_folder).mkdir(exist_ok=True, parents=True)
-
-    image_hubble_id = 1
-
+    hubble_collection_name = 'holiday_cards'
     api_spacex_url = 'https://api.spacexdata.com/v4/launches/latest'
-    api_hubble_url = f'http://hubblesite.org/api/v3/image/{image_hubble_id}/'
-    try:
-        # image_spacex_links = fetch_image_links_spacex_last_launch(api_spacex_url)
-        # for image_id, image_link in enumerate(image_spacex_links, start=1):
-        #     image_title = f'spacex{image_id}.jpg'
-        #     image_filepath = download_image(image_link, image_title, images_folder)
-        #     print(image_filepath)
-        image_hubble_link = urljoin('https://', fetch_image_links_hubble(api_hubble_url)[-1])
-        image_hubble_title = get_image_title(image_hubble_link, image_hubble_id)
-        download_image(image_hubble_link, image_hubble_title, images_hubble_folder)
+    api_hubble_url = f'http://hubblesite.org/api/v3/images/{hubble_collection_name}'
 
+    try:
+        fetch_spacex_last_launch(api_spacex_url)
+        fetch_hubble_from_collection(api_hubble_url)
     except requests.exceptions.HTTPError as request_error:
         exit(f'Не могу получить ответ от сервера -> {request_error}')
 
