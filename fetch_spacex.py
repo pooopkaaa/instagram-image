@@ -1,11 +1,23 @@
 import os
 from pathlib import Path
 from urllib.parse import urlsplit, unquote, urljoin
+import argparse
 import requests
 import urllib3
 
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
+def get_command_line_args():
+    parser = argparse.ArgumentParser(description='Загрузка изображений\
+                                    опубликованных с последнего запуска\
+                                    SpaceX с помощью предоставленного API.')
+    parser.add_argument('-f',
+                        '--folder',
+                        default='images/',
+                        help='Укажите в какую папку загрузить изображения.')
+    return parser.parse_args()
 
 
 def get_response(url):
@@ -36,7 +48,8 @@ def fetch_spacex_last_launch(folder):
 
 
 def main():
-    images_folder = 'images'
+    command_line_args = get_command_line_args()
+    images_folder = command_line_args.folder
     Path(images_folder).mkdir(exist_ok=True)
 
     try:

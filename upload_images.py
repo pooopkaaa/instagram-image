@@ -1,10 +1,25 @@
 import os
 from os import listdir
 from pathlib import Path
+import argparse
 import requests
 from PIL import Image
 from instabot import Bot
 from dotenv import load_dotenv
+
+
+def get_command_line_args():
+    parser = argparse.ArgumentParser(description='Редактирую изображения по определенным условиям.\
+                                    Публикую изображений в ваш instagram аккаунт.')
+    parser.add_argument('-f',
+                        '--folder',
+                        required=True,
+                        help='Укажите папку в которой хранятся загруженные изображения.')
+    parser.add_argument('-m',
+                        '--modify',
+                        required=True,
+                        help='Укажите папку в которой будут хранится опубликованные изображения.')    
+    return parser.parse_args()
 
 
 def modify_images(downloaded_images_folder, modify_images_folder):
@@ -42,8 +57,9 @@ def upload_images_to_instagram(folder):
 
 
 def main():
-    downloaded_images_folder = 'images'
-    modify_images_folder = 'modify_images'
+    command_line_args = get_command_line_args()
+    downloaded_images_folder = command_line_args.folder
+    modify_images_folder = command_line_args.modify
     Path(modify_images_folder).mkdir(exist_ok=True)
 
     try:
