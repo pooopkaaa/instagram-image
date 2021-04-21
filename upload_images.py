@@ -62,12 +62,8 @@ def main():
     modify_images_folder = command_line_args.modify
     Path(modify_images_folder).mkdir(exist_ok=True)
 
-    try:
-        modify_images(downloaded_images_folder, modify_images_folder)
-        upload_images_to_instagram(modify_images_folder)
-    except requests.exceptions.HTTPError as request_error:
-        exit(f'Не могу получить ответ от сервера -> {request_error}')
-
+    modify_images(downloaded_images_folder, modify_images_folder)
+    upload_images_to_instagram(modify_images_folder)
 
 if __name__ == '__main__':
     main()
