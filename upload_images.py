@@ -18,7 +18,7 @@ def get_command_line_args():
     parser.add_argument('-m',
                         '--modify',
                         required=True,
-                        help='Укажите папку в которой будут хранится опубликованные изображения.')    
+                        help='Укажите папку в которой будут хранится опубликованные изображения.')
     return parser.parse_args()
 
 
@@ -43,7 +43,6 @@ def modify_images(downloaded_images_folder, modify_images_folder):
                     Path(modify_images_folder)
                     .joinpath(filename).with_suffix('.jpg'),
                     format="JPEG")
-    print('Изображения -> подготовлены к загрузке')
 
 
 def upload_images_to_instagram(folder):
@@ -53,7 +52,6 @@ def upload_images_to_instagram(folder):
     for filename in listdir(folder):
         filepath = Path(folder).joinpath(filename)
         bot.upload_photo(filepath)
-    print('Изображения -> опубликованы')
 
 
 def main():
@@ -64,6 +62,7 @@ def main():
 
     modify_images(downloaded_images_folder, modify_images_folder)
     upload_images_to_instagram(modify_images_folder)
+
 
 if __name__ == '__main__':
     main()
