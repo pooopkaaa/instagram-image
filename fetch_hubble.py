@@ -12,7 +12,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def get_command_line_args():
     parser = argparse.ArgumentParser(description='Загрузка изображений опубликованных\
                                      с телескопа Hubble с помощью предоставленного API.\
-                                     Укажите коллекция изображений, которое необходимо скачать.\
+                                     Укажите коллекцию изображений, которые необходимо загрузить.\
                                      Дополнительно можно загрузить изображение по заданному id.')
     parser.add_argument('-f',
                         '--folder',

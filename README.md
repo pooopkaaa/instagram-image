@@ -44,7 +44,7 @@ INSTAGRAM_PASSWORD=
 Параметр | Пример 1 | Пример 2 | Описание 
 -------- | -------- | -------- | ------
 `--folder`<br>`-f` | `--folder my-images/`| `-f my-images/` | В какой папке находятся загруженные изображения.
-`--modify`<br>`-m`| `--modify modify_images/` | `-c modify_images/` | В какой папке будут находиться<br>отредактированные и опубликованные<br>изображения.
+`--modified`<br>`-m`| `--modified modified_images/` | `-m modified_images/` | В какой папке будут находиться<br>отредактированные и опубликованные<br>изображения.
 
 
 ## Запуск
@@ -61,7 +61,7 @@ python fetch_spacex.py -f my-images/
 
 - Пример запуска скрипта `upload_images.py`:
 ```bash
-python upload_images.py -f my-images/ -m modify_images/
+python upload_images.py -f my-images/ -m modified_images/
 ```
 
 ## Цели проекта
