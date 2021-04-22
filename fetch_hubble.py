@@ -1,9 +1,9 @@
-import os
 from pathlib import Path
-from urllib.parse import urlsplit, unquote, urljoin
+from urllib.parse import urljoin
 import argparse
 import requests
 import urllib3
+from handler import get_response, download_image, get_file_extension_from_url
 
 
 def get_command_line_args():
@@ -22,24 +22,6 @@ def get_command_line_args():
                         '--id',
                         help='Укажите какой id изображения загрузить.')
     return parser.parse_args()
-
-
-def get_response(url):
-    response = requests.get(url, verify=False)
-    response.raise_for_status()
-    return response
-
-
-def download_image(url, filename, folder):
-    response = get_response(url)
-    filepath = os.path.join(folder, filename)
-    with open(filepath, 'wb') as file:
-        file.write(response.content)
-    return filepath
-
-
-def get_file_extension_from_url(url):
-    return os.path.splitext(os.path.split(urlsplit(unquote(url)).path)[-1])[-1]
 
 
 def fetch_hubble_from_collection(collection_name, folder):

@@ -2,7 +2,6 @@ import os
 from os import listdir
 from pathlib import Path
 import argparse
-import requests
 from PIL import Image
 from instabot import Bot
 from dotenv import load_dotenv
