@@ -16,11 +16,11 @@
 ```bash
 pip install -r requirements.txt
 ```
-- Создайте файл `.env`, который содержит `LOGIN` и `PASSWORD` доступа к личному аккаунту [Instagram](https://www.instagram.com/).
+- Создайте файл `.env`, который содержит `INSTAGRAM_LOGIN` и `INSTAGRAM_PASSWORD` доступа к личному аккаунту [Instagram](https://www.instagram.com/).
 
 ```
-LOGIN=
-PASSWORD=
+INSTAGRAM_LOGIN=
+INSTAGRAM_PASSWORD=
 ```
 
 ## Настройка запуска

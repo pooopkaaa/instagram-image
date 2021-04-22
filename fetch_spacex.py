@@ -11,8 +11,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def get_command_line_args():
     parser = argparse.ArgumentParser(description='Загрузка изображений\
-                                    опубликованных с последнего запуска\
-                                    SpaceX с помощью предоставленного API.')
+                                     опубликованных с последнего запуска\
+                                     SpaceX с помощью предоставленного API.')
     parser.add_argument('-f',
                         '--folder',
                         default='images/',

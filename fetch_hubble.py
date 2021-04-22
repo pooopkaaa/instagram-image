@@ -11,9 +11,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def get_command_line_args():
     parser = argparse.ArgumentParser(description='Загрузка изображений опубликованных\
-                                    с телескопа Hubble с помощью предоставленного API.\
-                                    Укажите коллекция изображений, которое необходимо скачать.\
-                                    Дополнительно можно загрузить изображение по заданному id.')
+                                     с телескопа Hubble с помощью предоставленного API.\
+                                     Укажите коллекция изображений, которое необходимо скачать.\
+                                     Дополнительно можно загрузить изображение по заданному id.')
     parser.add_argument('-f',
                         '--folder',
                         default='images/',
@@ -54,10 +54,9 @@ def fetch_hubble_from_collection(collection_name, folder):
 
 
 def fetch_hubble_from_id(image_id, folder):
-    image_url = urljoin(
-            'https://',
-            get_response(f'http://hubblesite.org/api/v3/image/{image_id}').json()
-            ['image_files'][-1]['file_url'])
+    image_url = urljoin('https://',
+                        get_response(f'http://hubblesite.org/api/v3/image/{image_id}')
+                        .json()['image_files'][-1]['file_url'])
     image_title = f'hubble{image_id}{get_file_extension_from_url(image_url)}'
     download_image(image_url, image_title, folder)
 
