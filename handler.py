@@ -18,7 +18,11 @@ def download_image(url, filename, folder):
 
 
 def get_file_extension_from_url(url):
-    return os.path.splitext(os.path.split(urlsplit(unquote(url)).path)[-1])[-1]
+    unquote_url = unquote(url)
+    url_path = urlsplit(unquote_url).path
+    filename = os.path.split(url_path)[-1]
+    file_extension = os.path.splitext(filename)[-1]
+    return file_extension
 
 
 if __name__ == '__main__':
