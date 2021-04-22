@@ -6,9 +6,6 @@ import requests
 import urllib3
 
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-
 def get_command_line_args():
     parser = argparse.ArgumentParser(description='Загрузка изображений опубликованных\
                                      с телескопа Hubble с помощью предоставленного API.\
@@ -62,6 +59,8 @@ def fetch_hubble_from_id(image_id, folder):
 
 
 def main():
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
     command_line_args = get_command_line_args()
     images_folder = command_line_args.folder
     Path(images_folder).mkdir(exist_ok=True)
