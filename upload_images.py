@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 def get_command_line_args():
     parser = argparse.ArgumentParser(description='Редактирую изображения по определенным условиям.\
-                                     Публикую изображений в ваш instagram аккаунт.')
+                                     Публикую изображения в ваш instagram аккаунт.')
     parser.add_argument('-f',
                         '--folder',
                         required=True,
