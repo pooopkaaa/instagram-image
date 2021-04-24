@@ -1,5 +1,6 @@
 import os
-from urllib.parse import urlsplit, unquote
+from urllib.parse import unquote, urlsplit
+
 import requests
 
 
@@ -23,7 +24,3 @@ def get_file_extension_from_url(url):
     filename = os.path.split(url_path)[-1]
     file_extension = os.path.splitext(filename)[-1]
     return file_extension
-
-
-if __name__ == '__main__':
-    pass

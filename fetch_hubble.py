@@ -1,9 +1,11 @@
+import argparse
 from pathlib import Path
 from urllib.parse import urljoin
-import argparse
+
 import requests
 import urllib3
-from handler import get_response, download_image, get_file_extension_from_url
+
+from handler import download_image, get_file_extension_from_url, get_response
 
 
 def get_command_line_args():
